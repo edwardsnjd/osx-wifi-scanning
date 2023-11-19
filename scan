@@ -4,7 +4,7 @@
 #   scan - scan once for wifi networks
 #
 # SYNOPSIS
-#   scan
+#   scan [NETWORK...]
 #
 # OUTPUT
 #   TSV lines in the format:
@@ -16,7 +16,21 @@
 #   - ts = for adding timestamps to output
 #   - bash + sed
 
-airport -s -x \
-  | xsltproc format.xslt - \
-  | ts "%FT%T%z%t%s" \
-  | sed -u 's/ /\t/'
+Main() {
+  Scan | MaybeFilter "$@"
+}
+
+Scan() {
+  airport -s -x \
+    | xsltproc format.xslt - \
+    | ts "%FT%T%z%t%s" \
+    | sed -u 's/ /\t/'
+}
+
+MaybeFilter() {
+  local grepArgs="$(IFS="|" ; echo "$*")"
+  if [[ -z "$grepArgs" ]]; then grepArgs="." ; fi
+  grep --line-buffered -E "$grepArgs"
+}
+
+Main "$@"

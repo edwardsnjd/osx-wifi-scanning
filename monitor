@@ -4,7 +4,7 @@
 #   monitor - monitor wifi networks
 #
 # SYNOPSIS
-#   monitor
+#   monitor [NETWORK...]
 #
 # OUTPUT
 #   TSV lines in the format:
@@ -13,4 +13,4 @@
 # DEPENDENCIES
 #   - scan = for the scanning
 
-while true; do ./scan ; done
+while true; do ./scan "$@" ; done

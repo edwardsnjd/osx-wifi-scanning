@@ -15,7 +15,7 @@ GNU tools) the main dependencies are:
 Usage
 -----
 
-Run a scan (using `airport -s` to scan):
+Run a scan (using `airport` to scan):
 
 ```sh
 $ ./scan
@@ -28,10 +28,19 @@ $ ./scan
 2023-11-19T21:21:39+0800	1700400099	Tineco_0250	3e:61:5:d8:61:9d	1	-83
 ```
 
-Repeatedly scan only printing specific networks (note `grep` will buffer by default):
+Scan only specific networks:
 
 ```sh
-$ ./monitor | grep --line-buffered -E "Network1|Network2"
+$ ./scan "Network1" "Network2"
+2023-11-19T21:16:42+0800	1700399802	Network1	a0:a0:a0:a0:a0:01	11	-36
+2023-11-19T21:16:42+0800	1700399802	Network2	a0:a0:a0:a0:a0:11	36	-61
+2023-11-19T21:16:42+0800	1700399802	Network2	a0:a0:a0:a0:a0:12	149	-47
+```
+
+Repeatedly scan specific networks:
+
+```sh
+$ ./monitor "Network1" "Network2"
 2023-11-19T21:16:42+0800	1700399802	Network1	a0:a0:a0:a0:a0:01	11	-36
 2023-11-19T21:16:42+0800	1700399802	Network2	a0:a0:a0:a0:a0:11	36	-61
 2023-11-19T21:16:42+0800	1700399802	Network2	a0:a0:a0:a0:a0:12	149	-47
@@ -44,6 +53,6 @@ $ ./monitor | grep --line-buffered -E "Network1|Network2"
 Repeatedly scan, plotting in the terminal:
 
 ```sh
-$ ./monitor | grep --line-buffered FooNetwork | ./plot
+$ ./monitor "Network1" | ./plot
 ```
 ![Terminal plot](./GnuPlot.png)
