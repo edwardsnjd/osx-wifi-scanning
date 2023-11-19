@@ -11,29 +11,6 @@
 #     iso <tab> timestamp <tab> ssid <tab> bssid <tab> channel <tab> rssi
 #
 # DEPENDENCIES
-#   - airport = for network scanning
-#   - xsltproc = for xml formatting
-#   - ts = for adding timestamps to output
-#   - bash + sed
+#   - scan = for the scanning
 
-set -o nounset
-set -o errexit
-set -o pipefail
-#set -o xtrace
-
-Main() {
-  ScanContinuously | AddTimestamps
-}
-
-ScanContinuously() {
-  while true
-  do
-    airport -s -x | xsltproc minimal.xslt -
-  done
-}
-
-AddTimestamps() {
-  ts "%FT%T%z%t%s" | sed -u 's/ /\t/'
-}
-
-Main "$@"
+while true; do ./scan ; done

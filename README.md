@@ -18,48 +18,32 @@ Usage
 Run a scan (just an alias for the underlying `airport -s` scan):
 
 ```sh
-$ ./scan.sh
-                            SSID BSSID             RSSI CHANNEL HT CC SECURITY (auth/unicast/group)
-               OPTUS_B267E2_5GHz 80:20:da:b2:67:e4 -90  132     Y  AU WPA2(PSK/AES/AES) 
-                  PADOCK MADNESS bc:30:d9:eb:9f:04 -77  9       Y  -- WPA2(PSK/AES/AES) 
-                       NETGEAR58 b0:39:56:f9:aa:dc -74  9,+1    Y  AU WPA2(PSK/AES/AES) 
-       DIRECT-0b-HP M15 LaserJet 86:2a:fd:79:9a:0b -83  6       Y  -- WPA2(PSK/AES/AES) 
-                    OPTUS_B267E2 80:20:da:b2:67:e5 -85  6       Y  AU WPA2(PSK/AES/AES) 
+$ ./scan
+2023-11-19T21:21:39+0800	1700400099	OPTUS_B272	80:20:da:b2:67:e4	132	-83
+2023-11-19T21:21:39+0800	1700400099	Padock wifi	d0:db:b7:99:51:74	11	-85
+2023-11-19T21:21:39+0800	1700400099	WiFi-3A11	d8:47:32:68:3a:11	9	-90
+2023-11-19T21:21:39+0800	1700400099	WiFi-863375	b0:a7:b9:86:33:75	7	-93
+2023-11-19T21:21:39+0800	1700400099	WiFi-85F7	b0:95:75:56:85:f7	8	-86
+2023-11-19T21:21:39+0800	1700400099	Vodafone-5	e8:48:b8:91:fd:6a	1	-90
+2023-11-19T21:21:39+0800	1700400099	Tineco_0250	3e:61:5:d8:61:9d	1	-83
 ```
 
-Repeatedly scan specific BSSIDs, priting only the RSSI values:
+Repeatedly scan only printing specific networks (note `grep` will buffer by default):
 
 ```sh
-$ ./monitor.sh b0:39:56:f9:aa:dc 86:2a:fd:79:9a:0b
--74	-100
--74	-88
--77	-88
--76	-88
+$ ./monitor | grep --line-buffered -E "Network1|Network2"
+2023-11-19T21:16:42+0800	1700399802	Network1	a0:a0:a0:a0:a0:01	11	-36
+2023-11-19T21:16:42+0800	1700399802	Network2	a0:a0:a0:a0:a0:11	36	-61
+2023-11-19T21:16:42+0800	1700399802	Network2	a0:a0:a0:a0:a0:12	149	-47
+2023-11-19T21:16:45+0800	1700399805	Network1	a0:a0:a0:a0:a0:01	11	-37
+2023-11-19T21:16:45+0800	1700399805	Network2	a0:a0:a0:a0:a0:11	36	-61
+2023-11-19T21:16:45+0800	1700399805	Network2	a0:a0:a0:a0:a0:12	149	-46
 # Ctrl+C
-```
-
-Repeatedly scan, capturing each result to a timestamped file under `data/`:
-
-```sh
-$ ./log.sh
-# Ctrl+C
-$ ls -l data/
-total 3
--rw-r--r--@ 1 user1  staff  1256 26 May 22:10 2021-05-26T14:10:30Z.dat
--rw-r--r--@ 1 user1  staff  1463 26 May 22:10 2021-05-26T14:10:36Z.dat
--rw-r--r--@ 1 user1  staff  1063 26 May 22:10 2021-05-26T14:10:42Z.dat
 ```
 
 Repeatedly scan, plotting in the terminal:
 
 ```sh
-$ ./monitor.sh b0:39:56:f9:aa:dc 86:2a:fd:79:9a:0b \
-| ./plot.sh \
-   --legend 0 "Wifi A" \
-   --legend 1 "Wifi B" \
-   --terminal "dumb ansi $COLUMNS,$(($LINES-3))" \
-   --unset grid \
-   --stream \
-   --exit
+$ ./monitor | grep --line-buffered FooNetwork | ./plot
 ```
 ![Terminal plot](./GnuPlot.png)

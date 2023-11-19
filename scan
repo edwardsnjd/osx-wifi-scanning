@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# NAME
+#   scan - scan once for wifi networks
+#
+# SYNOPSIS
+#   scan
+#
+# OUTPUT
+#   TSV lines in the format:
+#     iso <tab> timestamp <tab> ssid <tab> bssid <tab> channel <tab> rssi
+#
+# DEPENDENCIES
+#   - airport = for network scanning
+#   - xsltproc = for xml formatting
+#   - ts = for adding timestamps to output
+#   - bash + sed
+
+airport -s -x \
+  | xsltproc format.xslt - \
+  | ts "%FT%T%z%t%s" \
+  | sed -u 's/ /\t/'

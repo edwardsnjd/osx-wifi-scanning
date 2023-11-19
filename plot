@@ -6,7 +6,7 @@
 # SYNOPSIS
 #   monitor | GNUTERM="dumb ansi" plot
 #   monitor | plot --term "dumb ansi"
-#   monitor | grep FooNetwork | plot
+#   monitor | grep --line-buffered FooNetwork | plot
 #
 # DEPENDENCIES
 #   - bash = scripting
@@ -17,28 +17,31 @@ Main() {
 }
 
 FormatData() {
-  while IFS=$'\t' read ts ssid bssid channel rssi
+  local nbsp=" "
+  while IFS=$'\t' read iso ts ssid bssid channel rssi
   do
-    echo "$ts $bssid-$ssid-$channel $rssi"
+    echo "${ts} ${ssid}${nbsp}(${bssid},${channel}) ${rssi}"
   done
 }
 
 Plot() {
   feedgnuplot \
     --stream \
-    --xlen 120 \
+    --xlen 128 \
     --domain \
     --timefmt "%s" \
     --dataid \
     --autolegend \
+    --lines \
+    --points \
+    --title "Wifi strength (above -65 is ok)" \
+    --ylabel "Signal strength (dB)" \
     --ymin -100 \
     --ymax 0 \
-    --title "Wifi strength (above -60 is ok)" \
-    --ylabel "Signal strength (dB)" \
     --set "nogrid" \
     --set "tics out" \
     --set "xtics nomirror" \
-    --set "key outside" \
+    --set "key below" \
     "$@"
 }
 
