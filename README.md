@@ -15,7 +15,7 @@ GNU tools) the main dependencies are:
 Usage
 -----
 
-Run a scan (just an alias for the underlying `airport -s` scan):
+Run a scan (using `airport -s` to scan):
 
 ```sh
 $ ./scan
