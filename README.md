@@ -53,6 +53,6 @@ $ ./monitor "Network1" "Network2"
 Repeatedly scan, plotting in the terminal:
 
 ```sh
-$ ./monitor "Network1" | ./plot
+$ ./monitor "Network1" | ./plot --terminal "dumb ansi $COLUMNS,$((LINES-4))"
 ```
 ![Terminal plot](./GnuPlot.png)
