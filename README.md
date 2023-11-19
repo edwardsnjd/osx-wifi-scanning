@@ -10,6 +10,7 @@ This is just a bunch of little `bash` scripts, so aside from that (and common
 GNU tools) the main dependencies are:
 
 - `airport` (the OSX scanning utility)
+- `xsltproc` (to process the XML from airport)
 - `feedgnuplot` and `gnuplot` (only required if you want to plot)
 
 Usage
