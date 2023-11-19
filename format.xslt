@@ -4,7 +4,7 @@
 
   <xsl:template match="/">
     <xsl:variable name="tab">
-      <xsl:text>	</xsl:text>
+      <xsl:text>&#x9;</xsl:text>
     </xsl:variable>
 
     <xsl:variable name="newline">
